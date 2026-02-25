@@ -56,7 +56,7 @@ class AuthController extends Controller
         if ($role === 'siswa') {
             $validated = $request->validate([
                 'nis' => 'required|unique:siswa',
-                'nama' => 'required|string',
+                'nama_lengkap' => 'required|string',
                 'kelas' => 'required|string',
                 'jurusan' => 'required|string',
                 'username' => 'required|unique:siswa|string',
@@ -65,7 +65,7 @@ class AuthController extends Controller
 
             Siswa::create([
                 'nis' => $validated['nis'],
-                'nama' => $validated['nama'],
+                'nama_lengkap' => $validated['nama_lengkap'],
                 'kelas' => $validated['kelas'],
                 'jurusan' => $validated['jurusan'],
                 'username' => $validated['username'],

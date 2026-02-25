@@ -19,7 +19,7 @@
         <div>
             <h4 class="mb-0">Dashboard Siswa</h4>
             <small class="text-muted">
-                Selamat datang, {{ auth()->user()->nama ?? session('username') ?? 'Siswa' }}
+                Selamat datang, {{ auth()->user()->nama_lengkap ?? session('username') ?? 'Siswa' }}
             </small>
         </div>
 

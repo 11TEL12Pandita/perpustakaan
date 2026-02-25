@@ -26,6 +26,11 @@ Route::get('/admin/dashboard', [DashboardController::class, 'adminDashboard'])->
 Route::get('/siswa/dashboard', [DashboardController::class, 'siswaDashboard'])->name('siswa.dashboard');
 // Route untuk melihat daftar anggota (user dengan role 'siswa')
 Route::get('/admin/anggota', [DashboardController::class, 'membersList'])->name('admin.anggota');
+Route::get('/admin/anggota/create', [DashboardController::class, 'createMember'])->name('admin.anggota.create');
+Route::post('/admin/anggota/store', [DashboardController::class, 'storeMember'])->name('admin.anggota.store');
+Route::get('/admin/anggota/edit/{id}', [DashboardController::class, 'editMember'])->name('admin.anggota.edit');
+Route::post('/admin/anggota/update/{id}', [DashboardController::class, 'updateMember'])->name('admin.anggota.update');
+Route::get('/admin/anggota/delete/{id}', [DashboardController::class, 'deleteMember'])->name('admin.anggota.delete');
 
 // Route untuk Buku
 Route::get('/buku', [BukuController::class, 'index'])->name('buku.index');

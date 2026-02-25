@@ -78,6 +78,11 @@ class TransaksiController extends Controller
         return redirect()->route('login');
     }
 
+    // Hanya siswa yang bisa mengembalikan buku
+    if (session('user_type') !== 'siswa') {
+        return back()->with('error', 'Admin tidak dapat mengembalikan buku. Hanya siswa yang bisa mengembalikan buku.');
+    }
+
     $transaksi = Transaksi::find($id);
 
     if (!$transaksi) {
@@ -90,7 +95,7 @@ class TransaksiController extends Controller
     }
 
     // Siswa hanya boleh kembalikan miliknya
-    if (session('user_type') === 'siswa' && $transaksi->user_id != session('user_id')) {
+    if ($transaksi->user_id != session('user_id')) {
         return back()->with('error', 'Tidak ada akses');
     }
 

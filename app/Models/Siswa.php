@@ -8,6 +8,6 @@ class Siswa extends Model
 {
     protected $table = 'siswa';
     protected $primaryKey = 'id_anggota';
-    protected $fillable = ['nis', 'nama', 'kelas', 'jurusan', 'username', 'password'];
+    protected $fillable = ['nis', 'nama_lengkap', 'kelas', 'jurusan', 'username', 'password'];
     public $timestamps = true;
 }

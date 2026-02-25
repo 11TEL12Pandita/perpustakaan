@@ -19,13 +19,25 @@
             <small class="text-muted">Semua anggota yang sudah mendaftar akun</small>
         </div>
 
-        <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary btn-sm">
-            <i class="bi bi-arrow-left"></i> Kembali
-        </a>
+        <div class="gap-2 d-flex">
+            <a href="{{ route('admin.anggota.create') }}" class="btn btn-success btn-sm">
+                <i class="bi bi-plus-circle"></i> Tambah Anggota
+            </a>
+            <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary btn-sm">
+                <i class="bi bi-arrow-left"></i> Kembali
+            </a>
+        </div>
     </div>
 
     <div class="card shadow-sm">
         <div class="card-body">
+            @if(session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle"></i> {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
             <p class="mb-2">Total anggota: <strong>{{ $members->count() }}</strong></p>
 
             <div class="table-responsive">
@@ -40,6 +52,7 @@
                             <th>Jurusan</th>
                             <th>Username</th>
                             <th>Tanggal Daftar</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -48,11 +61,19 @@
                             <td>{{ $index + 1 }}</td>
                             <td>{{ $m->id_anggota ?? '-' }}</td>
                             <td>{{ $m->nis ?? '-' }}</td>
-                            <td>{{ $m->nama ?? '-' }}</td>
+                            <td>{{ $m->nama_lengkap ?? '-' }}</td>
                             <td>{{ $m->kelas ?? '-' }}</td>
                             <td>{{ $m->jurusan ?? '-' }}</td>
                             <td>{{ $m->username ?? '-' }}</td>
                             <td>{{ $m->created_at ? $m->created_at->format('Y-m-d') : '-' }}</td>
+                            <td>
+                                <a href="{{ route('admin.anggota.edit', $m->id_anggota) }}" class="btn btn-warning btn-sm">
+                                    <i class="bi bi-pencil"></i> Edit
+                                </a>
+                                <a href="{{ route('admin.anggota.delete', $m->id_anggota) }}" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">
+                                    <i class="bi bi-trash"></i> Hapus
+                                </a>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>

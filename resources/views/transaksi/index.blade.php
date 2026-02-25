@@ -20,9 +20,11 @@
         </h5>
 
         <div>
-            <a href="{{ route('transaksi.create') }}" class="btn btn-primary btn-sm">
-                <i class="bi bi-plus-circle"></i> Pinjam
-            </a>
+            @if(session('user_type') === 'siswa')
+                <a href="{{ route('transaksi.create') }}" class="btn btn-primary btn-sm">
+                    <i class="bi bi-plus-circle"></i> Pinjam
+                </a>
+            @endif
 
             <a href="{{ session('user_type') === 'admin' ? route('admin.dashboard') : route('siswa.dashboard') }}"
                class="btn btn-secondary btn-sm">
@@ -32,6 +34,13 @@
     </div>
 
     <!-- Alert -->
+    @if(session('user_type') === 'admin')
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            <i class="bi bi-info-circle"></i> <strong>Informasi:</strong> Sebagai admin, Anda hanya dapat melihat status transaksi. Hanya siswa yang dapat mengembalikan buku yang sedang dipinjam.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
     @foreach (['success' => 'success', 'error' => 'danger'] as $key => $color)
         @if(session($key))
             <div class="alert alert-{{ $color }} alert-dismissible fade show">
@@ -76,7 +85,7 @@
 
                             @if(session('user_type') === 'admin')
                                 <td class="text-start">
-                                    {{ $item->user->nama ?? '-' }}
+                                    {{ $item->user->nama_lengkap ?? '-' }}
                                 </td>
                             @endif
 
@@ -107,8 +116,7 @@
                             </td>
 
                             <td>
-
-                                @if(!$item->tanggal_kembali)
+                                @if(!$item->tanggal_kembali && session('user_type') === 'siswa')
 
                                 <form action="{{ route('transaksi.kembali', $item->id) }}" method="POST" style="display:inline;">
                                     @csrf
@@ -120,6 +128,9 @@
                                         <i class="bi bi-check-circle"></i> Kembalikan
                                     </button>
                                 </form>
+
+                                @elseif(!$item->tanggal_kembali && session('user_type') === 'admin')
+                                    <span class="badge bg-warning text-dark">Dipinjam - Hanya Siswa Bisa Kembalikan</span>
 
                                 @else
                                     <span class="badge bg-success">Sudah Dikembalikan</span>
@@ -149,9 +160,11 @@
             <div class="text-center p-4 text-muted">
                 Belum ada riwayat peminjaman
                 <br>
-                <a href="{{ route('transaksi.create') }}" class="btn btn-primary btn-sm mt-2">
-                    Pinjam Buku
-                </a>
+                @if(session('user_type') === 'siswa')
+                    <a href="{{ route('transaksi.create') }}" class="btn btn-primary btn-sm mt-2">
+                        Pinjam Buku
+                    </a>
+                @endif
             </div>
 
             @endif

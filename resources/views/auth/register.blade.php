@@ -35,7 +35,7 @@
             </div>
 
             <div class="mb-2">
-                <input type="text" name="nama" class="form-control" placeholder="Nama lengkap">
+                <input type="text" name="nama_lengkap" class="form-control" placeholder="Nama lengkap">
             </div>
 
             <div class="row">
